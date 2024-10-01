@@ -2,9 +2,9 @@
 
 import {
   parseGwei,
+  toBlobs
 } from 'viem';
 import { loadKZG } from 'kzg-wasm';
-import { blob } from '@/constants';
 
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import { isEthereumWallet } from '@dynamic-labs/ethereum';
@@ -22,21 +22,18 @@ const Sign = () => {
 
       const kzg = await loadKZG();
 
-      const signer = await primaryWallet!.getWalletClient();
+      const client = await primaryWallet!.getWalletClient();
 
-      await signer.signTransaction({
-        blobs: [blob],
-        blobVersionedHashes: [
-          '0x01747efc9c3c7bd29518c662cb1cf19b9362b372502f096b20a0c0793211ccd0',
-        ],
-        data: '0x77c243eb0000000000000000000000005da800332ae8c6b6479a6dae56991d25e48e24a1',
+      const blobs = toBlobs({ data: stringToHex('hello world') })
+ 
+      const hash = await client.sendTransaction({
+        blobs,
         kzg,
-        nonce: 0x7,
         maxFeePerBlobGas: parseGwei('30'),
-        to: '0x0d72aC8E388e340Ed30517C3523be8C7d207d53e',
-      });
+        to: '0x0000000000000000000000000000000000000000',
+      })
 
-      console.log('eth_signTransaction call was successful');
+      console.log('eth_signTransaction call was successful', hash);
     } catch (error) {
       console.log(error);
     }
