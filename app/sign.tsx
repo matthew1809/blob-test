@@ -1,8 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
 import {
-  Chain as vChain,
   parseGwei,
 } from 'viem';
 import { loadKZG } from 'kzg-wasm';
@@ -12,8 +10,7 @@ import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import { isEthereumWallet } from '@dynamic-labs/ethereum';
 
 // import { setupKzg } from 'viem'
-// import { mainnetTrustedSetupPath } from 'viem/node'
- 
+
 const Sign = () => {
   const { primaryWallet } = useDynamicContext();
 
@@ -22,6 +19,7 @@ const Sign = () => {
       if (!primaryWallet || !isEthereumWallet(primaryWallet)) {
         console.log('no primary wallet or is not ethereum wallet');
       };
+
       const kzg = await loadKZG();
 
       const signer = await primaryWallet!.getWalletClient();
