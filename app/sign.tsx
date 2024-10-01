@@ -2,7 +2,8 @@
 
 import {
   parseGwei,
-  toBlobs
+  toBlobs,
+  stringToHex
 } from 'viem';
 import { loadKZG } from 'kzg-wasm';
 
