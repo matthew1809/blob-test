@@ -1,10 +1,12 @@
-import { DynamicWidget } from '../lib/dynamic';
+import { DynamicWidget, useIsLoggedIn } from '../lib/dynamic';
 import Sign from './sign';
 
 export default function Main() {
+  const isLoggedIn = useIsLoggedIn();
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black flex flex-col items-center justify-center text-white">
-      <Sign />
+
       <br />
       <div className="flex flex-col items-center justify-center text-center">
         <div className="mb-6">
@@ -17,6 +19,7 @@ export default function Main() {
           Web3 login for <span className="text-blue-400">everyone</span>.
         </p>
         <DynamicWidget />
+        {isLoggedIn && <Sign />}
       </div>
       <div className="flex mt-16 space-x-4 ">
         <a
