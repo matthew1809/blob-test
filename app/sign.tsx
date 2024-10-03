@@ -9,6 +9,7 @@ import { loadKZG } from 'kzg-wasm';
 
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core';
 import { isEthereumWallet } from '@dynamic-labs/ethereum';
+import { sepolia } from 'viem/chains';
 
 // import { setupKzg } from 'viem'
 
@@ -23,15 +24,19 @@ const Sign = () => {
 
       const kzg = await loadKZG();
 
-      const client = await primaryWallet!.getWalletClient();
+      const client = await primaryWallet.getWalletClient();
+      console.log('client', client)
 
       const blobs = toBlobs({ data: stringToHex('hello world') })
  
       const hash = await client.sendTransaction({
+        account: client.account,
         blobs,
         kzg,
-        maxFeePerBlobGas: parseGwei('30'),
-        to: '0x0000000000000000000000000000000000000000',
+        maxFeePerBlobGas: parseGwei('300'),
+        to: '0x722009F87f88A77B9D3cB3e8DC661b4957e05c5F',
+        gas: 21000n,
+        chain: sepolia
       })
 
       console.log('eth_signTransaction call was successful', hash);
@@ -42,7 +47,7 @@ const Sign = () => {
 
   return (
     <button
-      className="p-4 inline-flex items-center justify-center rounded-lg border-2 border-[#3B3636] shadow-lg w-64"
+      className="btn btn-primary"
       onClick={() => {
         handle();
       }}
